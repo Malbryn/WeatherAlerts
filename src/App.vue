@@ -79,8 +79,110 @@
 </template>
 
 <script>
+import { log } from "@/utils/Logger";
+import Cookies from "js-cookie";
+
 export default {
   name: "App",
+  data() {
+    return {
+      // Default coordinates (London)
+      location: {
+        lat: 51.507,
+        lon: 0.128,
+      },
+    };
+  },
+  async mounted() {
+    // Get location from cookies
+    const locationCookie = this.getLocationCookie();
+
+    if (locationCookie === undefined) {
+      // Location is not available in cookies, try geolocation
+      try {
+        const locationGeoRaw = await this.getGeolocation();
+        const locationGeo = {
+          lat: parseFloat(locationGeoRaw.coords.latitude.toFixed(3)),
+          lon: parseFloat(locationGeoRaw.coords.longitude.toFixed(3)),
+        };
+
+        this.location = locationGeo;
+        this.saveLocationCookie(locationGeo);
+      } catch (error) {
+        log.info(
+          "Geolocation is not available: " +
+            error.message +
+            ", using default location instead"
+        );
+
+        this.saveLocationCookie(this.location);
+      }
+    } else {
+      this.location = locationCookie;
+    }
+  },
+  methods: {
+    saveLocationCookie(coordinates) {
+      try {
+        if (this.validateCoordinates(coordinates)) {
+          // Set value as a cookie
+          const coordinatesString = JSON.stringify(coordinates);
+          Cookies.set("location", coordinatesString, 365);
+
+          log.info("Location saved: " + coordinatesString);
+        }
+      } catch (error) {
+        log.error("Couldn't save coordinates in cookies: \n" + error);
+      }
+    },
+    getLocationCookie() {
+      const coordinatesRaw = Cookies.get("location");
+      if (coordinatesRaw === undefined) return undefined;
+
+      try {
+        // Parse and validate coordinates
+        const location = JSON.parse(coordinatesRaw);
+
+        if (this.validateCoordinates(location)) {
+          log.info("Coordinates found: " + coordinatesRaw);
+
+          return location;
+        }
+      } catch (error) {
+        log.warn("Couldn't parse the JSON containing the location: \n" + error);
+
+        return undefined;
+      }
+    },
+    validateCoordinates(coordinates) {
+      // Check input type
+      if (typeof coordinates !== "object")
+        throw new TypeError("'coordinates' is not an object");
+
+      // Check latitude values
+      if (
+        typeof coordinates.lat !== "number" ||
+        coordinates.lat < -90 ||
+        90 < coordinates.lat
+      )
+        throw new Error(`'lat' is out of bounds (value: ${coordinates.lat})`);
+
+      // Check logintude values
+      if (
+        typeof coordinates.lon !== "number" ||
+        coordinates.lon < -180 ||
+        180 < coordinates.lon
+      )
+        throw new Error(`'lon' is out of bounds (value: ${coordinates.lon})`);
+
+      return true;
+    },
+    getGeolocation() {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    },
+  },
 };
 </script>
 
