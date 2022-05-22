@@ -80,8 +80,6 @@ export class Location {
   }
 
   validateCoordinates(coordinates) {
-    console.log(coordinates);
-
     // Check the input type
     if (typeof coordinates !== "object")
       throw new TypeError("'coordinates' is not an object");
