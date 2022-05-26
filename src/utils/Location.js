@@ -125,8 +125,10 @@ export class Location {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        this.country = data[0].country;
-        this.city = data[0].name;
+        if (data.length !== 0) {
+          this.country = data[0].country;
+          this.city = data[0].name;
+        }
       });
   }
 }
