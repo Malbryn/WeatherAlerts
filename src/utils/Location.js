@@ -4,11 +4,18 @@ import Cookies from "js-cookie";
 // Default coordinates (London)
 const DEFAULT_LATITUDE = 51.507;
 const DEFAULT_LONGITUDE = 0.128;
+const DEFAULT_CITY = "London";
+const DEFAULT_COUNTRY = "GB";
+
+// API URL
+const URL_BASE = "http://api.openweathermap.org/geo/1.0";
 
 export class Location {
   constructor() {
     this.latitude = DEFAULT_LATITUDE;
     this.longitude = DEFAULT_LONGITUDE;
+    this.city = DEFAULT_CITY;
+    this.country = DEFAULT_COUNTRY;
   }
 
   async initLocation() {
@@ -20,6 +27,7 @@ export class Location {
       try {
         const locationGeoRaw = await this.getGeolocation();
 
+        // Parse the coordinates
         this.latitude = parseFloat(locationGeoRaw.coords.latitude.toFixed(3));
         this.longitude = parseFloat(locationGeoRaw.coords.longitude.toFixed(3));
 
@@ -42,6 +50,8 @@ export class Location {
       this.latitude = locationCookie.latitude;
       this.longitude = locationCookie.longitude;
     }
+
+    await this.getCityByCoordinates();
   }
 
   getlocationCookie() {
@@ -54,7 +64,7 @@ export class Location {
       const location = JSON.parse(coordinatesRaw);
 
       if (this.validateCoordinates(location)) {
-        log.info("Coordinates found: " + coordinatesRaw);
+        log.info("Location found: " + coordinatesRaw);
 
         return location;
       }
@@ -107,5 +117,16 @@ export class Location {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
+  }
+
+  async getCityByCoordinates() {
+    const url = `${URL_BASE}/reverse?lat=${this.latitude}&lon=${this.longitude}&limit=1&appid=${process.env.VUE_APP_API_KEY}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        this.country = data[0].country;
+        this.city = data[0].name;
+      });
   }
 }

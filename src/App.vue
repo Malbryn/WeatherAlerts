@@ -17,7 +17,13 @@
               />
             </div>
             <div id="location-text">
-              <p class="h1 m-0">Budapest, Hungary</p>
+              <p class="h1 m-0">
+                {{
+                  location !== null
+                    ? location.city + ", " + location.country
+                    : "UNKNOWN"
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -85,7 +91,7 @@ export default {
   name: "App",
   data() {
     return {
-      location: undefined,
+      location: null,
     };
   },
   mounted() {
