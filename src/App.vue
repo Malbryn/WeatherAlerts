@@ -43,7 +43,9 @@
                 />
               </div>
               <div id="current-temp">
-                <p id="current-temp-text">20 °C</p>
+                <p id="current-temp-text">
+                  {{ weather !== null ? weather.temperature : "-" }} °C
+                </p>
               </div>
             </div>
           </div>
@@ -53,16 +55,34 @@
           >
             <div id="weather-details-1">
               <ul>
-                <li>Feels like: 18 °C</li>
-                <li>Humidity: 60%</li>
-                <li>Pressure: 1019 hPa</li>
+                <li>
+                  Feels like:
+                  {{ weather !== null ? weather.feelsLike : "-" }} °C
+                </li>
+                <li>
+                  Humidity:
+                  {{ weather !== null ? weather.humidity : "-" }}%
+                </li>
+                <li>
+                  Pressure:
+                  {{ weather !== null ? weather.pressure : "-" }} hPa
+                </li>
               </ul>
             </div>
             <div id="weather-details-2">
               <ul>
-                <li>Wind speed: 3 km/h</li>
-                <li>Wind direction: NE</li>
-                <li>UV index: 2</li>
+                <li>
+                  Wind speed:
+                  {{ weather !== null ? weather.windSpeed : "-" }} km/h
+                </li>
+                <li>
+                  Wind direction:
+                  {{ weather !== null ? weather.windDirection : "-" }}
+                </li>
+                <li>
+                  UV index:
+                  {{ weather !== null ? weather.uvIndex : "-" }}
+                </li>
               </ul>
             </div>
           </div>
@@ -86,18 +106,24 @@
 
 <script>
 import { Location } from "@/utils/Location";
+import { Weather } from "@/utils/Weather";
 
 export default {
   name: "App",
   data() {
     return {
       location: null,
+      weather: null,
     };
   },
-  mounted() {
+  async mounted() {
     // Initialise the location
     this.location = new Location();
-    this.location.initLocation();
+    await this.location.initLocation();
+
+    // Initialise weather
+    this.weather = new Weather();
+    await this.weather.initWeather(this.location);
   },
 };
 </script>
