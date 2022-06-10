@@ -1,11 +1,14 @@
 import { log } from "@/utils/Logger";
 import { Location } from "./Location";
+import { Alert } from "./Alert";
 
 // API URL
-const URL_BASE = "https://api.openweathermap.org/data/2.5";
+const URL_BASE_OPENWEATHER = "https://api.openweathermap.org/data/2.5";
+const URL_BASE_WEATHERBIT = "https://api.weatherbit.io/v2.0";
 
 export class Weather {
   constructor() {
+    this.location = null;
     this.temperature = null;
     this.feelsLike = null;
     this.humidity = null;
@@ -13,7 +16,7 @@ export class Weather {
     this.windSpeed = null;
     this.windDirection = null;
     this.uvIndex = null;
-    this.alerts = null;
+    this.alerts = [];
   }
 
   async initWeather(location) {
@@ -21,11 +24,14 @@ export class Weather {
     if (!(location instanceof Location)) {
       log.error("Cannot initialise Weather, wrong parameter was passed");
       return;
+    } else {
+      this.location = location;
     }
 
-    const url = `${URL_BASE}/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.VUE_APP_API_KEY_OW}&units=metric`;
+    // Fetch current weather
+    const url_weather = `${URL_BASE_OPENWEATHER}/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.VUE_APP_API_KEY_OPENWEATHER}&units=metric`;
 
-    fetch(url)
+    fetch(url_weather)
       .then((response) => response.json())
       .then((data) => {
         this.temperature = Math.round(data.main.temp);
@@ -34,9 +40,22 @@ export class Weather {
         this.pressure = Math.round(data.main.pressure);
         this.windSpeed = Math.round(data.wind.speed);
         this.windDirection = this.convertWindDirection(data.wind.deg);
+      });
 
-        console.log(data);
-        console.log(this);
+    // Fetch current alerts
+    const url_alerts = `${URL_BASE_WEATHERBIT}/alerts?lat=${location.latitude}&lon=${location.longitude}&key=${process.env.VUE_APP_API_KEY_WEATHERBIT}`;
+
+    fetch(url_alerts)
+      .then((response) => response.json())
+      .then((data) => {
+        const alerts = data.alerts;
+
+        alerts.forEach((element) => {
+          const alert = new Alert();
+          alert.init(element, location);
+
+          this.alerts.push(alert);
+        });
       });
   }
 

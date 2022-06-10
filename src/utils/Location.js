@@ -120,7 +120,7 @@ export class Location {
   }
 
   async getCityByCoordinates() {
-    const url = `${URL_BASE}/reverse?lat=${this.latitude}&lon=${this.longitude}&limit=1&appid=${process.env.VUE_APP_API_KEY_OW}`;
+    const url = `${URL_BASE}/reverse?lat=${this.latitude}&lon=${this.longitude}&limit=1&appid=${process.env.VUE_APP_API_KEY_OPENWEATHER}`;
 
     fetch(url)
       .then((response) => response.json())
