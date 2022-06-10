@@ -76,12 +76,12 @@
                   {{ weather !== null ? weather.windSpeed : "-" }} km/h
                 </li>
                 <li>
-                  Wind direction:
-                  {{ weather !== null ? weather.windDirection : "-" }}
+                  Wind gust:
+                  {{ weather !== null ? weather.windGust : "-" }} km/h
                 </li>
                 <li>
-                  UV index:
-                  {{ weather !== null ? weather.uvIndex : "-" }}
+                  Wind direction:
+                  {{ weather !== null ? weather.windDirection : "-" }}
                 </li>
               </ul>
             </div>
@@ -117,7 +117,7 @@ export default {
     };
   },
   async mounted() {
-    // Initialise the location
+    // Initialise location
     this.location = new Location();
     await this.location.initLocation();
 

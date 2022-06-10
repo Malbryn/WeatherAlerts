@@ -14,8 +14,8 @@ export class Weather {
     this.humidity = null;
     this.pressure = null;
     this.windSpeed = null;
+    this.windGust = null;
     this.windDirection = null;
-    this.uvIndex = null;
     this.alerts = [];
   }
 
@@ -39,6 +39,7 @@ export class Weather {
         this.humidity = Math.round(data.main.humidity);
         this.pressure = Math.round(data.main.pressure);
         this.windSpeed = Math.round(data.wind.speed);
+        this.windGust = Math.round(data.wind.gust);
         this.windDirection = this.convertWindDirection(data.wind.deg);
       });
 
