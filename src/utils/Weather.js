@@ -23,7 +23,7 @@ export class Weather {
       return;
     }
 
-    const url = `${URL_BASE}/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.VUE_APP_API_KEY}&units=metric`;
+    const url = `${URL_BASE}/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.VUE_APP_API_KEY_OW}&units=metric`;
 
     fetch(url)
       .then((response) => response.json())
