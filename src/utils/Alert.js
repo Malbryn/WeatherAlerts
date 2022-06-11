@@ -34,6 +34,25 @@ export class Alert {
     this.timeEffective = data.effective_local;
     this.timeExpires = data.expires_local;
   }
+
+  getTimeEffectiveTimestamp() {
+    return this.convertDate(this.timeEffective);
+  }
+
+  getTimeExpiresTimestamp() {
+    return this.convertDate(this.timeExpires);
+  }
+
+  convertDate(datetime) {
+    try {
+      const unixTime = Date.parse(datetime);
+      const date = new Date(unixTime);
+
+      return date.toLocaleString("en-GB");
+    } catch (error) {
+      log.error(error.message);
+    }
+  }
 }
 
 // Enum for handling of severity levels
@@ -47,6 +66,6 @@ class Severity {
   }
 
   toString() {
-    return `Severity.${this.level}`;
+    return this.level;
   }
 }

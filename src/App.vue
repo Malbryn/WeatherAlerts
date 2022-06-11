@@ -89,11 +89,62 @@
         </div>
         <!-- Current alerts -->
         <div id="alerts-wrapper" class="row m-3">
-          <ul class="d-flex flex-row">
-            <li>Alert 1</li>
-            <li>Alert 2</li>
-            <li>Alert 3</li>
-            <li>Alert 4</li>
+          <ul>
+            <li
+              v-for="alert in weather.alerts"
+              :key="alert"
+              data-bs-toggle="modal"
+              data-bs-target="#weather-alert-modal"
+            >
+              <a class="alert-listitem" href="#">{{ alert.title }}</a>
+              <div id="weather-alert-modal" class="modal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5>{{ alert.title }}</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <div id="alert-severity">
+                        <p>
+                          Severity: <br />
+                          {{ alert.severity }}
+                        </p>
+                      </div>
+                      <div id="alert-issued">
+                        <p>
+                          Issued: <br />
+                          {{ alert.getTimeEffectiveTimestamp() }}
+                        </p>
+                      </div>
+                      <div id="alert-expires">
+                        <p>
+                          Expires: <br />
+                          {{ alert.getTimeExpiresTimestamp() }}
+                        </p>
+                      </div>
+                      <div id="alert-regions">
+                        <p>
+                          Regions: <br />
+                          {{ alert.regions }}
+                        </p>
+                      </div>
+                      <div id="alert-descri">
+                        <p>
+                          Description: <br />
+                          {{ alert.description }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -112,17 +163,15 @@ export default {
   name: "App",
   data() {
     return {
-      location: null,
-      weather: null,
+      location: new Location(),
+      weather: new Weather(),
     };
   },
   async mounted() {
     // Initialise location
-    this.location = new Location();
     await this.location.initLocation();
 
     // Initialise weather
-    this.weather = new Weather();
     await this.weather.initWeather(this.location);
   },
 };
@@ -174,5 +223,15 @@ ul {
   max-height: 25px;
   max-width: 25px;
   vertical-align: baseline;
+}
+
+.alert-listitem {
+  text-decoration: none;
+  color: var(--palette-12);
+}
+
+.modal-content {
+  background-color: var(--palette-12);
+  color: var(--palette-1);
 }
 </style>
