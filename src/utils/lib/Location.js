@@ -1,4 +1,4 @@
-import { log } from "@/utils/Logger";
+import { log } from "@/utils/lib/Logger";
 import Cookies from "js-cookie";
 
 // Default coordinates (London)

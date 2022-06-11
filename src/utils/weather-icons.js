@@ -1,0 +1,15 @@
+export const weatherIcons = {
+  "11d": "mix-rainfall-2",
+  "09d": "drizzle",
+  "10d": "heavy-rain-1",
+  "13d": "blizzard",
+  "50d": "mist",
+  "01d": "sun-1",
+  "01n": "moon-1",
+  "02d": "partly-cloudy-1",
+  "02n": "partly-cloudy-3",
+  "03d": "mostly-cloudy-1",
+  "03n": "mostly-cloudy-1",
+  "04d": "mostly-cloudy-2",
+  "04n": "mostly-cloudy-2",
+};

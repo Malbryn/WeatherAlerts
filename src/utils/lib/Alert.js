@@ -1,4 +1,4 @@
-import { log } from "@/utils/Logger";
+import { log } from "@/utils/lib/Logger";
 import { Location } from "./Location";
 
 export class Alert {

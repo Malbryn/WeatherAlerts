@@ -36,7 +36,11 @@
             <div class="d-flex align-items-center gap-4 pe-lg-3">
               <div>
                 <img
-                  src="./assets/heavy-rain-1.svg"
+                  :src="
+                    this.weather !== null
+                      ? currentWeatherIconPath
+                      : './assets/sun-1.svg'
+                  "
                   alt="weather icon"
                   id="current-icon"
                   class="img-fluid"
@@ -156,8 +160,8 @@
 </template>
 
 <script>
-import { Location } from "@/utils/Location";
-import { Weather } from "@/utils/Weather";
+import { Location } from "@/utils/lib/Location";
+import { Weather } from "@/utils/lib/Weather";
 
 export default {
   name: "App",
@@ -166,6 +170,12 @@ export default {
       location: new Location(),
       weather: new Weather(),
     };
+  },
+  computed: {
+    currentWeatherIconPath() {
+      const icon = this.weather.getWeatherIconFileName();
+      return require(`./assets/${icon === "" ? "sun-1" : icon}.svg`);
+    },
   },
   async mounted() {
     // Initialise location

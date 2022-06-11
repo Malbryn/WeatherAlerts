@@ -1,4 +1,5 @@
-import { log } from "@/utils/Logger";
+import { log } from "@/utils/lib/Logger";
+import { weatherIcons } from "@/utils/weather-icons";
 import { Location } from "./Location";
 import { Alert } from "./Alert";
 
@@ -16,6 +17,7 @@ export class Weather {
     this.windSpeed = null;
     this.windGust = null;
     this.windDirection = null;
+    this.currentWeather = [];
     this.alerts = [];
   }
 
@@ -41,6 +43,7 @@ export class Weather {
         this.windSpeed = Math.round(data.wind.speed);
         this.windGust = Math.round(data.wind.gust);
         this.windDirection = this.convertWindDirection(data.wind.deg);
+        this.currentWeather = data.weather;
       });
 
     // Fetch current alerts
@@ -74,5 +77,14 @@ export class Weather {
     const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
     return directions[Math.round(bearing / 45) % 8];
+  }
+
+  getWeatherIconFileName() {
+    if (this.currentWeather.length !== 0) {
+      const mainWeather = this.currentWeather[0];
+      return weatherIcons[mainWeather.icon];
+    } else {
+      return "";
+    }
   }
 }
