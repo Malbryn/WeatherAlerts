@@ -153,8 +153,10 @@
         </div>
       </div>
     </main>
-    <footer class="row">
-      <p></p>
+    <footer class="row fixed-bottom">
+      <p class="text-center">
+        Disclaimer: the data presented in this app might not be 100% accurate
+      </p>
     </footer>
   </div>
 </template>
@@ -214,8 +216,8 @@ ul {
   padding-left: 0 !important;
 }
 
-.container {
-  height: 100vh;
+footer > p {
+  font-size: 0.85rem;
 }
 
 #current-icon {
@@ -233,6 +235,10 @@ ul {
   max-height: 25px;
   max-width: 25px;
   vertical-align: baseline;
+}
+
+.container {
+  height: 100vh;
 }
 
 .alert-listitem {
