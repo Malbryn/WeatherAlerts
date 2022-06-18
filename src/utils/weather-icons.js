@@ -2,6 +2,7 @@ export const weatherIcons = {
   "11d": "mix-rainfall-2",
   "09d": "drizzle",
   "10d": "heavy-rain-1",
+  "10n": "heavy-rain-1",
   "13d": "blizzard",
   "50d": "mist",
   "01d": "sun-1",
