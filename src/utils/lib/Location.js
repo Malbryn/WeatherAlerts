@@ -64,7 +64,7 @@ export class Location {
       const location = JSON.parse(coordinatesRaw);
 
       if (this.validateCoordinates(location)) {
-        log.info("Location found: " + coordinatesRaw);
+        log.info("Location found: ", coordinatesRaw);
 
         return location;
       }
@@ -82,7 +82,7 @@ export class Location {
         const coordinatesString = JSON.stringify(coordinates);
         Cookies.set("location", coordinatesString, 365);
 
-        log.info("Location saved: " + coordinatesString);
+        log.info("Location saved: ", coordinatesString);
       }
     } catch (error) {
       log.error("Couldn't save coordinates in cookies: \n" + error);

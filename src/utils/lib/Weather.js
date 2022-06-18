@@ -24,7 +24,9 @@ export class Weather {
   async initWeather(location) {
     // Check input location
     if (!(location instanceof Location)) {
-      log.error("Cannot initialise Weather, wrong parameter was passed");
+      log.error(
+        "Cannot initialise Weather, wrong location parameter was passed"
+      );
       return;
     } else {
       this.location = location;
@@ -44,6 +46,8 @@ export class Weather {
         this.windGust = Math.round(data.wind.gust);
         this.windDirection = this.convertWindDirection(data.wind.deg);
         this.currentWeather = data.weather;
+
+        log.debug("Weather: ", data);
       });
 
     // Fetch current alerts
@@ -60,6 +64,8 @@ export class Weather {
 
           this.alerts.push(alert);
         });
+
+        log.debug("Alerts: ", alerts);
       });
   }
 

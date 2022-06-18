@@ -3,35 +3,55 @@ export class Logger {
     this.level = level;
   }
 
-  debug(message) {
+  debug(message, ...args) {
     if (this.level <= 0) {
       const now = new Date();
       const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-      console.log(`${timestamp} | DEBUG | `, message);
+
+      if (args.length !== 0) {
+        console.log(`${timestamp} | DEBUG | `, message, args);
+      } else {
+        console.log(`${timestamp} | DEBUG | `, message);
+      }
     }
   }
 
-  info(message) {
+  info(message, ...args) {
     if (this.level <= 1) {
       const now = new Date();
       const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-      console.info(`${timestamp} | INFO | `, message);
+
+      if (args.length !== 0) {
+        console.info(`${timestamp} | DEBUG | `, message, args);
+      } else {
+        console.info(`${timestamp} | DEBUG | `, message);
+      }
     }
   }
 
-  warn(message) {
+  warn(message, ...args) {
     if (this.level <= 2) {
       const now = new Date();
       const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-      console.warn(`${timestamp} | WARNING | `, message);
+
+      if (args.length !== 0) {
+        console.warn(`${timestamp} | DEBUG | `, message, args);
+      } else {
+        console.warn(`${timestamp} | DEBUG | `, message);
+      }
     }
   }
 
-  error(message) {
+  error(message, ...args) {
     if (this.level <= 3) {
       const now = new Date();
       const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-      console.error(`${timestamp} | ERROR | `, message);
+
+      if (args.length !== 0) {
+        console.error(`${timestamp} | DEBUG | `, message, args);
+      } else {
+        console.error(`${timestamp} | DEBUG | `, message);
+      }
     }
   }
 }
