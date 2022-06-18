@@ -93,15 +93,25 @@
         </div>
         <!-- Current alerts -->
         <div id="alerts-wrapper" class="row m-3">
-          <ul>
+          <ul class="d-grid gap-2">
             <li
-              v-for="alert in weather.alerts"
+              v-for="(alert, index) in weather.alerts"
               :key="alert"
               data-bs-toggle="modal"
-              data-bs-target="#weather-alert-modal"
+              :data-bs-target="`#weather-alert-modal-${index}`"
             >
-              <a class="alert-listitem" href="#">{{ alert.title }}</a>
-              <div id="weather-alert-modal" class="modal">
+              <button
+                :class="{
+                  'alert-severity-advisory': alert.severity == 'Advisory',
+                  'alert-severity-watch': alert.severity == 'Watch',
+                  'alert-severity-warning': alert.severity == 'Warning',
+                }"
+                class="btn alert-listitem"
+                type="button"
+              >
+                {{ alert.severity + " - " + alert.title }}
+              </button>
+              <div :id="`weather-alert-modal-${index}`" class="modal">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -155,7 +165,7 @@
     </main>
     <footer class="row fixed-bottom">
       <p class="text-center">
-        Disclaimer: the data presented in this app might not be 100% accurate
+        <!-- Disclaimer: the data presented in this app might not be 100% accurate -->
       </p>
     </footer>
   </div>
@@ -242,8 +252,21 @@ footer > p {
 }
 
 .alert-listitem {
-  text-decoration: none;
   color: var(--palette-12);
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+.alert-severity-advisory {
+  background-color: var(--palette-6) !important;
+}
+
+.alert-severity-watch {
+  background-color: var(--palette-7) !important;
+}
+
+.alert-severity-warning {
+  background-color: var(--palette-9) !important;
 }
 
 .modal-content {
