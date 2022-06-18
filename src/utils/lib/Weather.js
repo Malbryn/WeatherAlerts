@@ -42,8 +42,8 @@ export class Weather {
         this.feelsLike = Math.round(data.main.feels_like);
         this.humidity = Math.round(data.main.humidity);
         this.pressure = Math.round(data.main.pressure);
-        this.windSpeed = Math.round(data.wind.speed);
-        this.windGust = Math.round(data.wind.gust);
+        this.windSpeed = Math.round(data.wind.speed * 3.6);
+        this.windGust = Math.round(data.wind.gust * 3.6);
         this.windDirection = this.convertWindDirection(data.wind.deg);
         this.currentWeather = data.weather;
 
