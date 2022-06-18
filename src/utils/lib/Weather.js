@@ -93,4 +93,17 @@ export class Weather {
       return "";
     }
   }
+
+  getWeatherDescription() {
+    if (this.currentWeather.length !== 0) {
+      const mainWeather = this.currentWeather[0];
+      const descriptionFormatted =
+        mainWeather.description.charAt(0).toUpperCase() +
+        mainWeather.description.slice(1);
+
+      return descriptionFormatted;
+    } else {
+      return "";
+    }
+  }
 }

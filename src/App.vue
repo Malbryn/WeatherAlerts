@@ -37,13 +37,17 @@
               <div>
                 <img
                   :src="
-                    this.weather !== null
+                    weather !== null
                       ? currentWeatherIconPath
                       : './assets/sun-1.svg'
                   "
                   alt="weather icon"
                   id="current-icon"
                   class="img-fluid"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  :title="currentWeatherDescription"
+                  ref="info"
                 />
               </div>
               <div id="current-temp">
@@ -93,7 +97,7 @@
         </div>
         <!-- Current alerts -->
         <div id="alerts-wrapper" class="row m-3">
-          <ul class="d-grid gap-2">
+          <ul v-if="weather.alerts.length !== 0" class="d-grid gap-2">
             <li
               v-for="(alert, index) in weather.alerts"
               :key="alert"
@@ -160,6 +164,7 @@
               </div>
             </li>
           </ul>
+          <p v-else>No weather alert is in effect.</p>
         </div>
       </div>
     </main>
@@ -187,6 +192,9 @@ export default {
     currentWeatherIconPath() {
       const icon = this.weather.getWeatherIconFileName();
       return require(`./assets/${icon === "" ? "sun-1" : icon}.svg`);
+    },
+    currentWeatherDescription() {
+      return this.weather.getWeatherDescription();
     },
   },
   async mounted() {
