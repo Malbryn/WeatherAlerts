@@ -35,7 +35,7 @@ export class Weather {
     // Fetch current weather
     const url_weather = `${URL_BASE_OPENWEATHER}/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.VUE_APP_API_KEY_OPENWEATHER}&units=metric`;
 
-    fetch(url_weather)
+    await fetch(url_weather)
       .then((response) => response.json())
       .then((data) => {
         this.temperature = Math.round(data.main.temp);
@@ -53,7 +53,7 @@ export class Weather {
     // Fetch current alerts
     const url_alerts = `${URL_BASE_WEATHERBIT}/alerts?lat=${location.latitude}&lon=${location.longitude}&key=${process.env.VUE_APP_API_KEY_WEATHERBIT}`;
 
-    fetch(url_alerts)
+    await fetch(url_alerts)
       .then((response) => response.json())
       .then((data) => {
         const alerts = data.alerts;
