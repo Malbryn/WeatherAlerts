@@ -118,7 +118,7 @@
                   {{ alert.severity + " - " + alert.title }}
                 </button>
                 <div :id="`weather-alert-modal-${index}`" class="modal">
-                  <div class="modal-dialog">
+                  <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5>{{ alert.title }}</h5>
