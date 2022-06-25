@@ -100,7 +100,9 @@ export class Location {
       coordinates.latitude < -90 ||
       90 < coordinates.latitude
     )
-      throw new Error(`'lat' is out of bounds (value: ${coordinates.lat})`);
+      throw new Error(
+        `'lat' is out of bounds (value: ${coordinates.latitude})`
+      );
 
     // Check longitude values
     if (
@@ -108,7 +110,9 @@ export class Location {
       coordinates.longitude < -180 ||
       180 < coordinates.longitude
     )
-      throw new Error(`'lon' is out of bounds (value: ${coordinates.lon})`);
+      throw new Error(
+        `'lon' is out of bounds (value: ${coordinates.longitude})`
+      );
 
     return true;
   }
@@ -128,6 +132,32 @@ export class Location {
         if (data.length !== 0) {
           this.country = data[0].country;
           this.city = data[0].name;
+        }
+      });
+  }
+
+  async setLocation(city, country) {
+    // TODO: Validate input
+
+    const url = `${URL_BASE}/direct?q=${city},${country}&limit=1&appid=${process.env.VUE_APP_API_KEY_OPENWEATHER}`;
+
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length != 0) {
+          this.latitude = parseFloat(data[0].lat.toFixed(3));
+          this.longitude = parseFloat(data[0].lon.toFixed(3));
+          this.country = data[0].country;
+          this.city = data[0].name;
+
+          log.debug("Location has been updated: ", this);
+
+          const cookieObject = {
+            latitude: this.latitude,
+            longitude: this.longitude,
+          };
+
+          this.saveLocationCookie(cookieObject);
         }
       });
   }

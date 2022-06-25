@@ -8,7 +8,12 @@
       <main class="row mt-3">
         <div class="col d-flex flex-column align-items-center">
           <!-- Current location -->
-          <div id="location-wrapper" class="row m-2">
+          <div
+            id="location-wrapper"
+            class="row p-2"
+            data-bs-toggle="modal"
+            data-bs-target="#location-modal"
+          >
             <div class="d-flex flex-row align-items-center gap-2">
               <div id="location-icon">
                 <img
@@ -26,6 +31,63 @@
                       : "UNKNOWN"
                   }}
                 </p>
+              </div>
+            </div>
+          </div>
+          <div id="location-modal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Location</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="location-city" class="form-label">City</label>
+                    <input
+                      v-model="cityInput"
+                      type="text"
+                      id="location-city"
+                      class="form-control"
+                      placeholder="London"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="location-country" class="form-label">
+                      Country code (Optional)
+                    </label>
+                    <input
+                      v-model="countryInput"
+                      type="text"
+                      id="location-country"
+                      class="form-control"
+                      placeholder="UK"
+                      maxlength="2"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="locationSaveHandler"
+                    data-bs-dismiss="modal"
+                  >
+                    Save changes
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -187,6 +249,8 @@ export default {
   name: "App",
   data() {
     return {
+      cityInput: "",
+      countryInput: "",
       location: new Location(),
       weather: new Weather(),
       isLoading: true,
@@ -209,6 +273,20 @@ export default {
     await this.weather.initWeather(this.location);
 
     this.isLoading = false;
+  },
+  methods: {
+    async locationSaveHandler() {
+      this.isLoading = true;
+
+      // Update location
+      await this.location.setLocation(this.cityInput, this.countryInput);
+
+      // Create new weather for the new location
+      this.weather = new Weather();
+      this.weather.initWeather(this.location);
+
+      this.isLoading = false;
+    },
   },
 };
 </script>
@@ -253,6 +331,15 @@ footer > p {
 #current-temp-text {
   font-size: 3.5rem;
   font-weight: bolder;
+}
+
+#location-wrapper {
+  cursor: pointer;
+  border: var(--palette-1) solid 1px;
+}
+
+#location-wrapper:hover {
+  border: var(--palette-2) solid 1px;
 }
 
 #location-icon {
