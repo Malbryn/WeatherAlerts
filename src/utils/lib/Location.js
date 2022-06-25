@@ -137,6 +137,8 @@ export class Location {
   }
 
   async setLocation(city, country) {
+    log.debug(`Setting new location (City: ${city}, Country: ${country})`);
+
     // TODO: Validate input
 
     const url = `${URL_BASE}/direct?q=${city},${country}&limit=1&appid=${process.env.VUE_APP_API_KEY_OPENWEATHER}`;

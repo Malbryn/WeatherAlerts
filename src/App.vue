@@ -66,7 +66,7 @@
                       type="text"
                       id="location-country"
                       class="form-control"
-                      placeholder="UK"
+                      placeholder="GB"
                       maxlength="2"
                     />
                   </div>
@@ -116,7 +116,12 @@
                 </div>
                 <div id="current-temp">
                   <p id="current-temp-text">
-                    {{ weather !== null ? weather.temperature : "-" }} °C
+                    {{
+                      weather !== null && weather.temperature !== null
+                        ? weather.temperature
+                        : "-"
+                    }}
+                    °C
                   </p>
                 </div>
               </div>
@@ -129,15 +134,30 @@
                 <ul>
                   <li>
                     Feels like:
-                    {{ weather !== null ? weather.feelsLike : "-" }} °C
+                    {{
+                      weather !== null && weather.feelsLike !== null
+                        ? weather.feelsLike
+                        : "-"
+                    }}
+                    °C
                   </li>
                   <li>
                     Humidity:
-                    {{ weather !== null ? weather.humidity : "-" }}%
+                    {{
+                      weather !== null && weather.humidity !== null
+                        ? weather.humidity
+                        : "-"
+                    }}
+                    %
                   </li>
                   <li>
                     Pressure:
-                    {{ weather !== null ? weather.pressure : "-" }} hPa
+                    {{
+                      weather !== null && weather.pressure !== null
+                        ? weather.pressure
+                        : "-"
+                    }}
+                    hPa
                   </li>
                 </ul>
               </div>
@@ -145,15 +165,29 @@
                 <ul>
                   <li>
                     Wind speed:
-                    {{ weather !== null ? weather.windSpeed : "-" }} km/h
+                    {{
+                      weather !== null && weather.windSpeed !== null
+                        ? weather.windSpeed
+                        : "-"
+                    }}
+                    km/h
                   </li>
                   <li>
                     Wind gust:
-                    {{ weather !== null ? weather.windGust : "-" }} km/h
+                    {{
+                      weather !== null && weather.windGust !== null
+                        ? weather.windGust
+                        : "-"
+                    }}
+                    km/h
                   </li>
                   <li>
                     Wind direction:
-                    {{ weather !== null ? weather.windDirection : "-" }}
+                    {{
+                      weather !== null && weather.windDirection !== null
+                        ? weather.windDirection
+                        : "-"
+                    }}
                   </li>
                 </ul>
               </div>

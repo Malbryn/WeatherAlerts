@@ -38,14 +38,7 @@ export class Weather {
     await fetch(url_weather)
       .then((response) => response.json())
       .then((data) => {
-        this.temperature = Math.round(data.main.temp);
-        this.feelsLike = Math.round(data.main.feels_like);
-        this.humidity = Math.round(data.main.humidity);
-        this.pressure = Math.round(data.main.pressure);
-        this.windSpeed = Math.round(data.wind.speed * 3.6);
-        this.windGust = Math.round(data.wind.gust * 3.6);
-        this.windDirection = this.convertWindDirection(data.wind.deg);
-        this.currentWeather = data.weather;
+        this.processWeatherData(data);
 
         log.debug("Weather: ", data);
       });
@@ -67,6 +60,29 @@ export class Weather {
 
         log.debug("Alerts: ", alerts);
       });
+  }
+
+  // Rounds the values and converts the wind from m/s to km/h
+  processWeatherData(data) {
+    this.temperature =
+      data.main.temp !== undefined ? Math.round(data.main.temp) : null;
+    this.feelsLike =
+      data.main.feels_like !== undefined
+        ? Math.round(data.main.feels_like)
+        : null;
+    this.humidity =
+      data.main.humidity !== undefined ? Math.round(data.main.humidity) : null;
+    this.pressure =
+      data.main.pressure !== undefined ? Math.round(data.main.pressure) : null;
+    this.windSpeed =
+      data.wind.speed !== undefined ? Math.round(data.wind.speed * 3.6) : null;
+    this.windGust =
+      data.wind.gust !== undefined ? Math.round(data.wind.gust * 3.6) : null;
+    this.windDirection =
+      data.wind.deg !== undefined
+        ? this.convertWindDirection(data.wind.deg)
+        : null;
+    this.currentWeather = data.weather !== undefined ? data.weather : null;
   }
 
   convertWindDirection(bearing) {
