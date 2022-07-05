@@ -387,7 +387,7 @@ footer > p {
 }
 
 .alert-listitem {
-  color: var(--palette-12);
+  color: var(--palette-11);
   text-decoration: none !important;
   font-weight: 600 !important;
 }
