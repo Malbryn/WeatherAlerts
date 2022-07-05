@@ -8,7 +8,7 @@ const DEFAULT_CITY = "London";
 const DEFAULT_COUNTRY = "GB";
 
 // API URL
-const URL_BASE = "http://api.openweathermap.org/geo/1.0";
+const URL_BASE = "https://api.openweathermap.org/geo/1.0";
 
 export class Location {
   constructor() {
